@@ -1,6 +1,6 @@
 package com.route.api.impl;
 
-import com.route.IRoute;
+import com.route.api.IRoute;
 import com.route.dto.RouteDTO;
 import com.route.util.Utils;
 
@@ -22,10 +22,12 @@ public class RouteImpl implements IRoute{
 	
 	private Set<String> reachableCities = new HashSet<>();
 	
+	private Map<String, List<RouteDTO>> routeMap = null;
+	
 	public Collection<String> getUnreachableAirports(String city) throws IOException {
 
-		Map<String, List<RouteDTO>> routes = Utils.getRouteMap();    
-		List<RouteDTO> route = routes.get(city);
+		routeMap = Utils.getRouteMap();    
+		List<RouteDTO> route = routeMap.get(city);
 
 		searchValidCities(route, Collections.emptyList(), 0000);
 		
@@ -53,7 +55,7 @@ public class RouteImpl implements IRoute{
 			List<String> tempTraversedCities = new ArrayList<>(traversedCities);
 			tempTraversedCities.add(route.getFromAirportCode());
 			
-			searchValidCities(Utils.getRouteMap().get(route.getToAirportCode()), traversedCities, route.getArrivalTime());
+			searchValidCities(routeMap.get(route.getToAirportCode()), traversedCities, route.getArrivalTime());
 		}
 		
 	}	
