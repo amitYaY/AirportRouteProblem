@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.route.dto.RouteDTO;
@@ -48,9 +48,9 @@ public class Utils {
 		
 	}
 	
-	public static Map<String, RouteDTO> getRoutes() throws IOException {
+	public static Set<String> getPossibleDestinationCities() throws IOException {
 		List<RouteDTO> routes = getRoutesFromFile();
-		return routes.stream().collect(Collectors.toMap(RouteDTO::getFromAirportCode, Function.identity()));
+		return routes.stream().map(route -> route.getToAirportCode()).collect(Collectors.toSet());
 		
 	}
 }
